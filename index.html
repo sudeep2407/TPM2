@@ -9,15 +9,16 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     </head>
     <body>
-        <header>
+        <!-- <header> -->
             <div class="container" style="text-align: center; margin-top: 1%;">
                 <div class = "notificationBox" id = "notification">
-                    <p id = "notoficationMessage">some message</p>
+                    <p id = "notoficationMessage"></p>
                     <button type="button" class="btn-close" id = "notificationClose" aria-label="Close"></button>
                 </div>
                 <h3>The Pine Mist - Booking Details</h3>
-                <hr>
+                
                 <div class="row g-3">
+                    <hr>
                     <div class="col-md-6">
                         <form class="d-flex" role="search">
                             <input id = "searchBooking" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" required>
@@ -25,11 +26,11 @@
                         </form>
                     </div>
                     <div class="col-md-6">
-                        <button class="btn btn-primary" id = "newEntry">New Entry</button>
+                        <button class="btn btn-warning" id = "newEntry">New Entry</button>
                     </div>
                 </div>
             </div>
-        </header>
+        <!-- </header> -->
         <main>
             <div class="container">
                 <div id = "bookingDetails">
@@ -148,13 +149,14 @@
                         <h5 style="text-align: center;">Other Details</h5>
 
                         <div class="col-md-6">
-                            <label for="bookinStatus" class="form-label">Booking Status</label>
+                            <label for="bookinStatus" class="form-label">Booking Stage</label>
                             <select id="bookinStatus" class="form-select" required>
                                 <option selected disabled value="">Choose...</option>
                                 <option value = "AllComplete">All bookings completed</option>
                                 <option value = "HotelsIncomplete">Hotels Booking Incomplete</option>
                                 <option value = "CabIncomplete">Cab Booking Incomplete</option>
                                 <option value = "HotelAndCabIncomplete">Hotel And Cab Booking Incomplete</option>
+                                <option value = "BookingCancelled">Booking Cancelled</option>
                             </select>
                         </div>
 
@@ -175,30 +177,38 @@
                     </form>
                 </div>
                 <hr>
-                <div id = "viewAllBookingDetails">
+                <div>
                     <h5 style="text-align: center;">All Booking Details</h5>
-
-                    <table class="table table-success table-striped table-hover" id = "allData">
-                        <thead>
-                          <tr>
-                            <th scope="col">Booking Id</th>
-                            <th scope="col">Guest Name</th>
-                            <th scope="col">Trip Start Date</th>
-                            <th scope="col">Trip End Date</th>
-                            <th scope="col">Booking Status</th>
-                          </tr>
-                        </thead>
-                        <tbody id = "tableBody">
-                         <!-- table rows will be generated via js in the following order -->
-                          <!-- <tr>
-                            <th scope="row"><a href="#">1</a></th>
-                            <td>Sudeep</td>
-                            <td>25th dec</td>
-                            <td>30th dec</td>
-                            <td>All bookings done</td>
-                          </tr> -->
-                        </tbody>
-                      </table>
+                    <div id = "navButtons">
+                        <button class="btn btn-primary" id = "all" disabled>All</button>
+                        <button class="btn btn-danger" id = "completed" disabled>Completed</button>
+                        <button class="btn btn-success" id = "ongoing" disabled>Ongoing</button>
+                        <button class="btn btn-info" id = "upcoming" disabled>Upcoming</button>
+                    </div>
+                    <div id = "viewAllBookingDetails">
+                        <table class="table table-success table-striped table-hover" id = "allData">
+                            <thead>
+                            <tr>
+                                <th scope="col">Booking Id</th>
+                                <th scope="col">Guest Name</th>
+                                <th scope="col">Trip Start Date</th>
+                                <th scope="col">Trip End Date</th>
+                                <th scope="col">Booking Stage</th>
+                                
+                            </tr>
+                            </thead>
+                            <tbody id = "tableBody">
+                            <!-- table rows will be generated via js in the following order -->
+                            <!-- <tr>
+                                <th scope="row"><a href="#">1</a></th>
+                                <td>Sudeep</td>
+                                <td>25th dec</td>
+                                <td>30th dec</td>
+                                <td>All bookings done</td>
+                            </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>  
         </main>
@@ -295,104 +305,6 @@
                 
             </div>
         </div>
-
-        <!-- <div class="modal fade" id="0pdfPreview" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog  modal-xl">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">PDF Preview</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div>
-                    <div class="container" id = "pdfPreviewDiv">
-                        <div id = "pdfHeader">
-                            <div id = "brandbgDiv">
-                                <img id = "brandbg" src="./Resources/Pics/NavBG.jpg" alt="bg">
-                            </div>
-                            <div id ="brandDisplay">
-                                <div id = "brandLogo">
-                                    <img src=".//Resources/Pics/logo.png"  alt="Logo">
-                                </div>
-                                <div id = "brandTitle">
-                                    <h3 id = "title">The Pine Mist</h3>
-                                    <p>Your Holiday Destination</p>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div style="text-align: center;">
-                            <h6>Booking ID : <span style="color:rgb(0, 0, 0);font-weight:bold" id = "pdfBookingId">NA</span></h6>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col">Guest Name</div>
-                            <div class="col" id = "pdfGuestName">NA</div>
-                            <div class="col">Guest Number</div>
-                            <div class="col" id = "pdfGuestNumber">NA</div>
-                        </div>
-                        <div class="row">
-                            <div class="col">Number of Adults</div>
-                            <div class="col" id = "pdfAdultCount">NA</div>
-                            <div class="col">Number of Children</div>
-                            <div class="col" id = "pdfChildCount">NA</div>
-                        </div>
-                        <div class="row">
-                            <div class="col">Number of Rooms</div>
-                            <div class="col" id = "pdfRoomCount">NA</div>
-                            <div class="col">AccomodationType</div>
-                            <div class="col" id = "pdfAccommodationType">NA</div>
-                        </div>
-                        <div class="row">
-                            <div class="col">Meal Plan</div>
-                            <div class="col" id = "pdfMealPlan">NA</div>
-                            <div class="col">Cab Type</div>
-                            <div class="col" id = "pdfCabType">NA</div>
-                        </div>
-                        <div class="row">
-                            <div class="col">Tour Start Date</div>
-                            <div class="col" id = "pdfTripStartDate">NA</div>
-                            <div class="col">Tour End Date</div>
-                            <div class="col" id = "pdfTripEndDate">NA</div>
-                        </div>                        
-                        <div class="row">
-                            <div class="col">Total Amount</div>
-                            <div class="col" id = "pdfGuestTotalCost">NA</div>
-                            <div class="col">Advance Paid</div>
-                            <div class="col" id = "pdfGuestAdvance">NA</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-3">Tour Details</div>
-                            <div class="col-9" id = "pdfTripDescription">NA</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-3">Exclusions</div>
-                            <div class="col-9">Parking Charges, Extra food apart from package, Entry Fees at any sightseeing points
-                                Cab waiting charges, Charges for any kind of damage to any property or cab, Permit charges for any place,
-                                etc.
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class ="col-12">
-                                <p>Terms and Conditions : </p>
-                                <ul class="termsConditionsList">
-                                    <li>Guests should carry a valid id proof (voter id preferable) and a passport size photo either hard or soft copy.</li>
-                                    <li>Guests should carry a valid id proof (voter id preferable) and a passport size photo either hard or soft copy.</li>
-                                    <li>Guests should carry a valid id proof (voter id preferable) and a passport size photo either hard or soft copy.</li>
-                                </ul>
-                            </div>
-                        </div>
-                      </div>
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" id = "generatePdf">Generate PDF</button>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
         <script src=
  "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">

@@ -3,8 +3,8 @@ const url = "https://script.google.com/macros/s/AKfycbw9zxby4LcOmFM04DDRy0a6qoag
 // new data entry button
 const newEntry = document.getElementById("newEntry");
 newEntry.addEventListener('click', function() {
-    let x = document.getElementById("bookingDetails");
-    x.style.display = "block";
+    let bookingDetails = document.getElementById("bookingDetails");
+    bookingDetails.style.display = "block";
     document.getElementById("utilityButtons").style.display = "none";
     document.getElementById("billingForm").reset();
     let saveButton = document.getElementById("save");
@@ -12,6 +12,7 @@ newEntry.addEventListener('click', function() {
     saveButton.style.display = "block";
     updateButton.style.display = "none";
     document.getElementById("bookingIdHeading").style.display = "none";
+    document.getElementById("navButtons").style.display = "none";
 })
 
 // close display panel button
@@ -19,6 +20,7 @@ const closeButton = document.getElementById("close");
 closeButton.addEventListener('click', function() {
     let x = document.getElementById("bookingDetails");
     x.style.display = "none";
+    document.getElementById("navButtons").style.display = "flex";
 })
 
 // search button
@@ -47,53 +49,121 @@ updateButton.addEventListener("click", function(event) {
     billingForm.classList.add('was-validated');
 })
 
+let completedButton = document.getElementById("completed")
+completedButton.addEventListener("click", function() {
+    displayData(responseJson, "completed")
+})
+
+let ongoingButton = document.getElementById("ongoing")
+ongoingButton.addEventListener("click", function() {
+    displayData(responseJson, "ongoing")
+})
+
+let upcomingButton = document.getElementById("upcoming")
+upcomingButton.addEventListener("click", function() {
+    displayData(responseJson, "upcoming")
+})
+
+let allButton = document.getElementById("all")
+allButton.addEventListener("click", function() {
+    displayData(responseJson, "all")
+})
+
+
 //get all booking data
 let responseJson = null;
+//let bookingStatus = "all";
 async function readBillingData() {
     const response = await fetch(url);
-    responseJson = await response.json();    
-    responseJson.sort((a, b) => new Date(a.TripStartDate) - new Date(b.TripStartDate));
-    displayData(responseJson);
+    responseJson = await response.json();
+    displayData(responseJson, "all");
+}
+
+function enableNavButtons() {
+    document.getElementById("completed").disabled = false;
+    document.getElementById("ongoing").disabled = false;
+    document.getElementById("upcoming").disabled = false;
+    document.getElementById("all").disabled = false;
 }
 
 // display all booking details
-function displayData(responseJson) {
+function displayData(responseJson, bookingStatus) {
+    responseJson.sort((a, b) => new Date(a.TripStartDate) - new Date(b.TripStartDate));
     let tableBody = document.getElementById("tableBody");
     tableBody.innerHTML="";
-    responseJson.forEach(element => {
-        let tableRow = document.createElement("tr");
-        let tableHeading = document.createElement("th");
-        tableHeading.scope = "row";
+    let displayJson = [];
 
-        let bookingIdLink = document.createElement("a");
-        bookingIdLink.href = "#";
-        bookingIdLink.onclick = function(){
-            displayBookingDetails(element.BookingId);
-        };
-        bookingIdLink.textContent = element.BookingId
-        tableHeading.appendChild(bookingIdLink);
+    if(bookingStatus=="all") {
+        displayJson = responseJson;
+    }
+    else if(bookingStatus == "completed") {
+        responseJson.forEach(element => {
+            let tripendDate = new Date(element.TripEndDate).getTime();
+            //let tripStartDate = new Date(element.TripStartDate).getTime();
+            let currentDate = new Date().getTime();
+            if(tripendDate<currentDate) {
+                displayJson.push(element);
+            }
+        })
+    }
+    else if(bookingStatus == "ongoing") {
+        responseJson.forEach(element => {
+            let tripendDate = new Date(element.TripEndDate).getTime();
+            let tripStartDate = new Date(element.TripStartDate).getTime();
+            let currentDate = new Date().getTime();
+            if(tripStartDate<currentDate && tripendDate>currentDate) {
+                displayJson.push(element);
+            }
+        })
+    }
+    else if(bookingStatus == "upcoming") {
+        responseJson.forEach(element => {
+            //let tripendDate = new Date(element.TripEndDate).getTime();
+            let tripStartDate = new Date(element.TripStartDate).getTime();
+            let currentDate = new Date().getTime();
+            if(tripStartDate>currentDate) {
+                displayJson.push(element);
+            }
+        })
+    }
+    console.log(displayJson);
+    displayJson.forEach(element => {
+        
+        
+            let tableRow = document.createElement("tr");
+            let tableHeading = document.createElement("th");
+            tableHeading.scope = "row";
 
-        //tableHeading.textContent = element.BookingId;
-        let guestName =  document.createElement("td");
-        guestName.textContent = element.GuestName;
-        let startDate =  document.createElement("td");
-        startDate.textContent = new Date(element.TripStartDate).toLocaleDateString();
-        let endDate =  document.createElement("td");
-        endDate.textContent = new Date(element.TripEndDate).toLocaleDateString();
-        let bookingStatus =  document.createElement("td");
-        bookingStatus.textContent = element.BookingStatus;
-        if(bookingStatus.textContent === "AllComplete") {
-            bookingStatus.style.color = "green";
-        }
-        else {
-            bookingStatus.style.color = "red";
-        }
-        tableRow.appendChild(tableHeading);
-        tableRow.appendChild(guestName);
-        tableRow.appendChild(startDate);
-        tableRow.appendChild(endDate);
-        tableRow.appendChild(bookingStatus);
-        tableBody.appendChild(tableRow);
+            let bookingIdLink = document.createElement("a");
+            bookingIdLink.href = "#";
+            bookingIdLink.onclick = function(){
+                displayBookingDetails(element.BookingId);
+            };
+            bookingIdLink.textContent = element.BookingId
+            tableHeading.appendChild(bookingIdLink);
+
+            //tableHeading.textContent = element.BookingId;
+            let guestName =  document.createElement("td");
+            guestName.textContent = element.GuestName;
+            let startDate =  document.createElement("td");
+            startDate.textContent = new Date(element.TripStartDate).toLocaleDateString();
+            let endDate =  document.createElement("td");
+            endDate.textContent = new Date(element.TripEndDate).toLocaleDateString();
+            let bookingStatus =  document.createElement("td");
+            bookingStatus.textContent = element.BookingStatus;
+            if(bookingStatus.textContent === "AllComplete") {
+                bookingStatus.style.color = "green";
+            }
+            else {
+                bookingStatus.style.color = "red";
+            }
+            tableRow.appendChild(tableHeading);
+            tableRow.appendChild(guestName);
+            tableRow.appendChild(startDate);
+            tableRow.appendChild(endDate);
+            tableRow.appendChild(bookingStatus);
+            tableBody.appendChild(tableRow);
+        
     });
 }
 
@@ -283,13 +353,19 @@ function submitBillingData(url, bookingId) {
           },
     })
     .then(readBillingData)
-    .then(displayNotification("Data saved successfully ! ", "success"));
+    .then(closeNewEntry);
+}
+
+function closeNewEntry() {
+    displayNotification("Data saved successfully ! ", "success");
+    let bookingDetails = document.getElementById("bookingDetails");
+    bookingDetails.style.display = "none";
 }
 
 // view pdf
-document.getElementById("pdfView").addEventListener('click', function() {
+// document.getElementById("pdfView").addEventListener('click', function() {
 
-})
+// })
 
 // display success/ failure notification
 function displayNotification(message, status) {
@@ -327,4 +403,4 @@ function formatDatePDF(anyDate) {
 }
 
 // get all booking details while page loads
-readBillingData();
+readBillingData().then(enableNavButtons);

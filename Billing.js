@@ -12,7 +12,7 @@ newEntry.addEventListener('click', function() {
     saveButton.style.display = "block";
     updateButton.style.display = "none";
     document.getElementById("bookingIdHeading").style.display = "none";
-    document.getElementById("navButtons").style.display = "none";
+    //document.getElementById("navButtons").style.display = "none";
     document.getElementById("resetButton").style.display = "block";
 })
 

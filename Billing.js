@@ -1,4 +1,4 @@
-const url = "https://script.google.com/macros/s/AKfycbw9zxby4LcOmFM04DDRy0a6qoagKZO2MyDPnZ1CuzI1Y4L7Yfqp5QjgsUEfHlUyqrff/exec";
+const url = "https://script.google.com/macros/s/AKfycbyWSDw63WOTVBOkjEzr2axaKyS0Pg9cAdFYx5ARyYO6KJ-RjU4vBVGKw8BefhQbiwI/exec";
 
 // new data entry button
 const newEntry = document.getElementById("newEntry");
@@ -13,6 +13,7 @@ newEntry.addEventListener('click', function() {
     updateButton.style.display = "none";
     document.getElementById("bookingIdHeading").style.display = "none";
     document.getElementById("navButtons").style.display = "none";
+    document.getElementById("resetButton").style.display = "block";
 })
 
 // close display panel button
@@ -198,7 +199,7 @@ function displayBookingDetails(bookingId){
         document.getElementById("cabType").value = data.CabType;
         document.getElementById("bookingDate").value = formatDate(data.BookingDate);
         document.getElementById("tripStartDate").value = formatDate(data.TripStartDate);
-        document.getElementById("tripEndtDate").value = formatDate(data.TripEndDate);
+        document.getElementById("tripEndDate").value = formatDate(data.TripEndDate);
         document.getElementById("guestTotalCost").value = data.GuestTotalCost;
         document.getElementById("guestAdvance").value = data.GuestAdvance;
         document.getElementById("hotelName").value = data.HotelName;
@@ -211,8 +212,10 @@ function displayBookingDetails(bookingId){
         document.getElementById("comments").value = data.Comments;
         let saveButton = document.getElementById("save");
         let updateButton = document.getElementById("update");
+        let resetButton = document.getElementById("resetButton");
         saveButton.style.display = "none";
         updateButton.style.display = "block";
+        resetButton.style.display = "none";
         document.getElementById("utilityButtons").style.display = "flex";
         let pdfView = document.getElementById("pdfView");
         pdfView.onclick = function(){
@@ -275,18 +278,46 @@ function displayPdfPreview(currentData) {
     };
 }
 
+
+
 // form validation check before saving
 const billingForm = document.getElementById("billingForm");
 const saveButton = document.getElementById("save");
 saveButton.addEventListener('click', function(event) {
-    event.preventDefault();
-    if (billingForm.checkValidity()) {
+    const customValidation = validateFormEntries();
+    if(!customValidation || !billingForm.checkValidity()) {
+        console.log("validation-if");
+        event.preventDefault();
+        event.stopPropagation();
+    }
+    else {
         const currentDate = new Date();
         const bookingId = 'TPM' + currentDate.getTime().toString();
-        submitBillingData(url, bookingId);    
+        console.log("Submitting form");
+        submitBillingData(url, bookingId);  
     }
     billingForm.classList.add('was-validated');
 });
+
+function validateFormEntries() {
+    const tripStartDate = document.getElementById("tripStartDate").value;
+    const tripEndDate = document.getElementById("tripEndDate").value;
+    let startDate = new Date(tripStartDate).getTime();
+    let endDate = new Date(tripEndDate).getTime();
+    
+    if(startDate>endDate) {
+        document.getElementById("tripStartDate").classList.add("is-invalid");
+        document.getElementById("tripStartDate").focus();
+        document.getElementById("tripEndDate").classList.add("is-invalid");
+        return false;
+    }
+    else {
+        document.getElementById("tripStartDate").classList.remove("is-invalid");
+        document.getElementById("tripEndDate").classList.remove("is-invalid");
+    }
+    return true;
+    
+}
 
 // save form data
 function submitBillingData(url, bookingId) {
@@ -303,7 +334,7 @@ function submitBillingData(url, bookingId) {
     const cabType = document.getElementById("cabType").value;
     const bookingDate = document.getElementById("bookingDate").value;
     const tripStartDate = document.getElementById("tripStartDate").value;
-    const tripEndtDate = document.getElementById("tripEndtDate").value;
+    const tripEndDate = document.getElementById("tripEndDate").value;
     const guestTotalCost = document.getElementById("guestTotalCost").value;
     const guestAdvance = document.getElementById("guestAdvance").value;
     const hotelName = document.getElementById("hotelName").value;
@@ -329,7 +360,7 @@ function submitBillingData(url, bookingId) {
         CabType: cabType,
         BookingDate: bookingDate,
         TripStartDate: tripStartDate,
-        TripEndtDate: tripEndtDate,
+        TripEndDate: tripEndDate,
         GuestTotalCost: guestTotalCost,
         GuestAdvance: guestAdvance,
         HotelName: hotelName,

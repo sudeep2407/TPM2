@@ -39,19 +39,22 @@
                         <h5 style="text-align: center;">Guest Details</h5>
                         <h6 style="text-align: center;" id = "bookingIdHeading"></h6>
                         <div class="col-md-4">
-                            <label for="guestName" class="form-label" >Guest Name</label>
-                            <input type="text" class="form-control" id="guestName" placeholder="Guest Name" required>
+                            <label for="guestName" class="form-label" >Guest Name <span id = "requiredField">*</span></label>
+                            <input type="text" class="form-control" id="guestName"  placeholder="Guest Name" required>
                         </div>
                         <div class="col-md-4">
-                            <label for="guestNumber" class="form-label">Guest Number</label>
-                            <input type="text" class="form-control" id="guestNumber" placeholder="Guest Number" required>
+                            <label for="guestNumber" class="form-label">Guest Number <span id = "requiredField">*</span></label>
+                            <input type="text" class="form-control" id="guestNumber" pattern="[0-9]{10}" placeholder="Guest Number" required>
+                            <div class="invalid-feedback">
+                                Please input a valid number.
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <label for="guestEmail" class="form-label">Guest Email</label>
-                            <input type="email" class="form-control" id="guestEmail" placeholder="Guest Email">
+                            <input type="email" class="form-control" id="guestEmail" pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" placeholder="Guest Email">
                         </div>
                         <div class="col-12">
-                            <label for="tripDescription" class="form-label">Trip Description</label>
+                            <label for="tripDescription" class="form-label">Trip Description <span id = "requiredField">*</span></label>
                             <textarea class="form-control" id="tripDescription" rows="3" placeholder="Trip Description" required></textarea>
                         </div>
                         <div class="col-md-3">
@@ -66,15 +69,15 @@
                         </div>
                         <div class="col-md-3">
                             <label for="adultCount" class="form-label">Adults Count</label>
-                            <input type="text" class="form-control" id="adultCount" placeholder="Adult Count">
+                            <input type="text" class="form-control" id="adultCount" pattern="[0-9]{1,}" placeholder="Adult Count">
                         </div>
                         <div class="col-md-3">
                             <label for="childCount" class="form-label">Child Count</label>
-                            <input type="text" class="form-control" id="childCount" placeholder="Child Count">
+                            <input type="text" class="form-control" id="childCount" pattern="[0-9]{1,}" placeholder="Child Count">
                         </div>
                         <div class="col-md-3">
                             <label for="roomCount" class="form-label">Room Count</label>
-                            <input type="text" class="form-control" id="roomCount" placeholder="Room Count">
+                            <input type="text" class="form-control" id="roomCount" pattern="[0-9]{1,}" placeholder="Room Count">
                         </div>
                         <div class="col-md-3">
                             <label for="mealPlan" class="form-label">Meal Plan</label>
@@ -92,24 +95,30 @@
                             <input type="text" class="form-control" id="cabType" placeholder="Cab Type">
                         </div>
                         <div class="col-md-3">
-                            <label for="tripStartDate" class="form-label">Trip Start Date</label>
+                            <label for="tripStartDate" class="form-label">Trip Start Date <span id = "requiredField">*</span></label>
                             <input type="date" class="form-control" id="tripStartDate" required>
+                            <div class="invalid-feedback">
+                                Please input a valid date.
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <label for="tripEndtDate" class="form-label">Trip End Date</label>
-                            <input type="date" class="form-control" id="tripEndtDate" required>
+                            <label for="tripEndDate" class="form-label">Trip End Date <span id = "requiredField">*</span></label>
+                            <input type="date" class="form-control" id="tripEndDate" required>
+                            <div class="invalid-feedback">
+                                Please input a valid date.
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <label for="bookingDate" class="form-label">Booking Date</label>
                             <input type="date" class="form-control" id="bookingDate">
                         </div>
                         <div class="col-md-4">
-                            <label for="guestTotalCost" class="form-label">Total Amount</label>
-                            <input type="text" class="form-control" id="guestTotalCost" required>
+                            <label for="guestTotalCost" class="form-label">Total Amount <span id = "requiredField">*</span></label>
+                            <input type="text" class="form-control" id="guestTotalCost" pattern="[0-9]{1,}"  placeholder="Total Amount" required>
                         </div>
                         <div class="col-md-4">
-                            <label for="guestAdvance" class="form-label">Advance Amount</label>
-                            <input type="text" class="form-control" id="guestAdvance" required>
+                            <label for="guestAdvance" class="form-label">Advance Amount <span id = "requiredField">*</span></label>
+                            <input type="text" class="form-control" id="guestAdvance" pattern="[0-9]{1,}" placeholder="Advance Amount" required>
                         </div>
 
                         <h5 style="text-align: center;">Hotel Details</h5>
@@ -149,7 +158,7 @@
                         <h5 style="text-align: center;">Other Details</h5>
 
                         <div class="col-md-6">
-                            <label for="bookinStatus" class="form-label">Booking Stage</label>
+                            <label for="bookinStatus" class="form-label">Booking Stage <span id = "requiredField">*</span></label>
                             <select id="bookinStatus" class="form-select" required>
                                 <option selected disabled value="">Choose...</option>
                                 <option value = "AllComplete">All bookings completed</option>
@@ -168,7 +177,7 @@
                         <div id="formButtons">
                             <button type="submit" class="btn btn-success" id = "save">Save</button>
                             <button type="submit" class="btn btn-success" id = "update">Update</button>
-                            <button type="reset" class="btn btn-warning" >Reset</button>
+                            <button type="reset" class="btn btn-warning" id = "resetButton">Reset</button>
                             <button type="button" class="btn btn-danger" id = "close">Close</button>
                         </div>
                         <div id = "utilityButtons">
@@ -222,7 +231,7 @@
                     <div id = "pdfPreviewDiv">
                         <div id = "pdfHeader">
                             <div id = "brandbgDiv">
-                                <img id = "brandbg" src="./Resources/Pics/NavBG.jpg" alt="bg">
+                                <img id = "brandbg" src="./Resources/Pics/NavBG2.jpg" alt="bg">
                             </div>
                             <div id ="brandDisplay">
                                 <div id = "brandLogo">

@@ -67,7 +67,7 @@
     text-align: center;
     flex-wrap: nowrap;
     position: absolute;
-    top: -20px;
+    top: 20px;
     justify-content: center;
     left: 400px
 }
@@ -145,4 +145,8 @@
 
   #requiredField {
     color: red;
+  }
+
+  .boldHeader {
+    font-weight: bold;
   }

@@ -393,11 +393,6 @@ function closeNewEntry() {
     bookingDetails.style.display = "none";
 }
 
-// view pdf
-// document.getElementById("pdfView").addEventListener('click', function() {
-
-// })
-
 // display success/ failure notification
 function displayNotification(message, status) {
     if(status == "failure") {

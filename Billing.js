@@ -246,7 +246,7 @@ window.onclick = function(event) {
 
 function displayPdfPreview(currentData) {
     //let pdfPreviewDiv = document.getElementById("pdfPreviewDiv");
-    document.getElementById("pdfBookingId").innerText = currentData.BookingId;
+    document.getElementById("pdfBookingId").innerText = "Booking ID : " + currentData.BookingId;
     document.getElementById("pdfGuestName").innerText = currentData.GuestName;
     document.getElementById("pdfGuestNumber").innerText = currentData.GuestNumber;
     document.getElementById("pdfAdultCount").innerText = currentData.AdultCount;
@@ -270,11 +270,18 @@ function displayPdfPreview(currentData) {
  
             doc.html(pdfjs, {
                 margin: [40,0,40,0],
+                autoPaging: 'text',
+                html2canvas: {
+                    allowTaint: true,
+                    letterRendering: true,
+                    logging: false,
+                    scale: 1, // Adjust the scale to fit content
+                }, 
                 callback: function(doc) {
                     doc.save(currentData.BookingId+".pdf");
                 },
                 x: 12,
-                y: 1
+                y: 10
             });              
     };
 }

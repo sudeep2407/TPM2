@@ -269,6 +269,7 @@ function displayPdfPreview(currentData) {
             let pdfjs = document.querySelector('#pdfPreviewDiv');
  
             doc.html(pdfjs, {
+                margin: [40,0,40,0],
                 callback: function(doc) {
                     doc.save(currentData.BookingId+".pdf");
                 },

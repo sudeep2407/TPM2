@@ -1,5 +1,5 @@
 textarea {
-  overflow-y: scroll;
+  field-sizing: content;
 }
 
 #bookingDetails {

@@ -1,3 +1,7 @@
+textarea {
+  overflow-y: scroll;
+}
+
 #bookingDetails {
     display: none;
     margin-top: 2%;

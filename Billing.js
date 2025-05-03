@@ -112,7 +112,7 @@ function displayData(responseJson, bookingStatus) {
             let tripendDate = new Date(element.TripEndDate).getTime();
             let tripStartDate = new Date(element.TripStartDate).getTime();
             let currentDate = new Date().getTime();
-            if(tripStartDate<currentDate && tripendDate>currentDate) {
+            if(tripStartDate<currentDate && tripendDate>=currentDate) {
                 displayJson.push(element);
             }
         })

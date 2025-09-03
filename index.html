@@ -194,6 +194,25 @@
                         <button class="btn btn-success" id = "ongoing" disabled>Ongoing</button>
                         <button class="btn btn-info" id = "upcoming" disabled>Upcoming</button>
                     </div>
+                    <div>
+                        <form class="row g-3 needs-validation" novalidate id = "dateFilter">
+                            <div class="col-md-6">
+                                <label for="startDate" class="form-label">Start Date <span id = "requiredField">*</span></label>
+                                <input type="date" class="form-control" id="startDate" disabled required>
+                                <div class="invalid-feedback">
+                                    Please input a valid date.
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="endDate" class="form-label">End Date <span id = "requiredField">*</span></label>
+                                <input type="date" class="form-control" id="endDate" disabled required>
+                                <div class="invalid-feedback">
+                                    Please input a valid date.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <br>
                     <div id = "viewAllBookingDetails">
                         <table class="table table-success table-striped table-hover" id = "allData">
                             <thead>
@@ -202,7 +221,7 @@
                                 <th scope="col">Guest Name</th>
                                 <th scope="col">Trip Start Date</th>
                                 <th scope="col">Trip End Date</th>
-                                <th scope="col">Booking Stage</th>
+                                <th scope="col">Booking Status</th>
                                 
                             </tr>
                             </thead>
